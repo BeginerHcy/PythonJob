@@ -70,7 +70,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #####################
         self.cutlowfrq = 2000
         self.labelFrq.setText('cutoff frequence is %dHz' % self.cutlowfrq)
-        self.horizontalSlider.setValue((self.cutlowfrq / 20 - 1))
+        self.horizontalSlider.setValue((int)(self.cutlowfrq / 20 - 1))
         #######################################################
         self.FileList.doubleClicked.connect(self.check_Item)
         #######################################################
@@ -395,8 +395,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # ---------------------------------------read the file list of the Directory
     def dirlistfile(self):
-        #filepath = QFileDialog.getExistingDirectory()
-        filepath = self.tempFilePath
+        filepath = QFileDialog.getExistingDirectory()
+        #filepath = self.tempFilePath
         if filepath != '':
             self.filepath = filepath
             self.FilListStr = self.collectfilstr(self.filepath)
@@ -566,7 +566,7 @@ if __name__ == '__main__':
     x = ag.width() / 2 - (mainWindow.width() + 800) / 2
     y = ag.height() / 2 - mainWindow.height() / 2 - 31
     #######################################################
-    mainWindow.move(x, y)
+    mainWindow.move((int)(x), (int)(y))
     mainWindow.show()
     #######################################################
     #figplot = plt.subplots()
