@@ -1,0 +1,52 @@
+nuitka --standalone --windows-disable-console --mingw64 --show-progress --show-memory --nofollow-import-to=urlib3,http --enable-plugin=pyqt5 --windows-icon-from-ico=icon.ico --output-dir=o main.py
+
+nuitka --standalone --windows-disable-console --show-progress --show-memory --nofollow-import-to=urlib3,http --enable-plugin=pyqt5 --windows-icon-from-ico=icon.ico --output-dir=o main.py
+
+nuitka --standalone --windows-disable-console --show-progress --show-memory --nofollow-import-to=urlib3,http --enable-plugin=pyqt5 --windows-icon-from-ico=icon.ico --output-dir=o testNuitka.py
+
+
+nuitka --standalone --windows-console --mingw64 --show-progress --show-memory --nofollow-import-to=urlib3,http,scipy,numpy,matplotlib --enable-plugin=pyqt5 --windows-icon-from-ico=icon.ico --output-dir=ko main.py
+
+
+
+nuitka --standalone --mingw64 --show-progress --show-memory --nofollow-import-to=urlib3,http,scipy,numpy,matplotlib --enable-plugin=pyqt5 --windows-icon-from-ico=icon.ico --output-dir=ko main.py
+
+nuitka --standalone --mingw64 --show-progress --show-memory --nofollow-import-to=urlib3,http --enable-plugin=pyqt5 --windows-icon-from-ico=icon.ico --output-dir=lo main.py
+
+nuitka --standalone --mingw64 --show-progress --show-memory --nofollow-import-to=urlib3,http,scipy,numpy,matplotlib --enable-plugin=pyqt5 --windows-icon-from-ico=icon.ico --output-dir=mo main.py
+
+
+nuitka --standalone --mingw64 --show-progress --show-memory --nofollow-import-to=urlib3,http --enable-plugin=pyqt5 --windows-icon-from-ico=icon.ico --output-dir=mo main.py
+
+
+nuitka --standalone --mingw64 --show-progress --show-memory --nofollow-import-to=urlib3,http --enable-plugin=pyqt5 --nofollow-import-to=tkinter --windows-icon-from-ico=icon.ico --output-dir=mo main.py
+
+
+
+
+--mingw64要求高版本的，改SconsComplilerSettings.py里面的文件
+
+
+亦然失败了，而且打包出来的文件夹并不小。
+
+用pyinstaller 打包
+
+-p package 是新建了一个package的文件夹，把一些没有的源文件拷贝进去，例如scipy文件夹
+
+pyinstaller -F -w -p package -i "icon.ico" "main.py"
+
+一个.py文件运行正常，用pyinstaller 生成EXE文件后，运行提示缺少模块
+
+No module named natsort’
+
+因为运行py是正常的，不是安装的问题
+
+于是搜寻各网站，给出的解决办法是：参数加P，加路径
+
+用pyinstaller -F -p D:\python\clpicdownload\venv\Lib\site-packages mypython.py这个命令打包，如果要包含多个目录，那
+
+就用分号隔开如：pyinstaller -F -p D:\python\clpicdownload\venv\Lib\site-packages;D:\python\clpicdownload\venv\Lib\site-packages mypython.py
+
+
+pyinstaller -F -w -p F:\00_software\02_Python\IL1000Data\venv\Lib\site-packages -i "icon.ico" "IL1000 DataAnalyse.py"
+pyinstaller -F -w -p F:\00_software\02_Python\IL1000Data\venv\Lib\site-packages -i "icon.ico" "MappDatAnalyse.py"
