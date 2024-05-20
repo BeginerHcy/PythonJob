@@ -101,12 +101,66 @@ class Ui_MainWindow(object):
         self.disconnect = QAction(QIcon("./Bitmap/connect_no.png"),'断开链接',  self)
         self.search     = QAction(QIcon("./Bitmap/refresh.gif"), '刷新串口', self)
 
+        self.changeCmos = QAction(QIcon("./Bitmap/symimportant.gif"), '切换', self)
+
+        self.recordDat = QAction(QIcon("./Bitmap/symparam.gif"), '记录数据', self)
+        self.showDat = QAction(QIcon("./Bitmap/symeffect.gif"), '停止并显示', self)
+        
+
         self.toolBar = self.addToolBar('串口链接')
         self.toolBar.addAction(self.search)
+        self.toolBar.addSeparator()
         self.toolBar.addWidget(self.cmbComlist)
+        self.toolBar.addSeparator()
         self.toolBar.addWidget(self.cmbBrdrate)
+        self.toolBar.addSeparator()
         self.toolBar.addAction(self.connect)
+        self.toolBar.addSeparator()
         self.toolBar.addAction(self.disconnect)
+
+        self.toolBar2 = QToolBar()
+        self.addToolBar(QtCore.Qt.BottomToolBarArea,self.toolBar2)
+        self.toolBar2.addAction(self.changeCmos)
+        self.toolBar2.addSeparator()
+        self.toolBar2.addAction(self.recordDat)
+        self.toolBar2.addAction(self.showDat)
+        ###################################################------------------------------------ Modbus Table
+        tabRows = 10 #systempara numbers need to display
+        tabCols = 2
+        self.SysParatable = QtWidgets.QTableWidget(self.centralwidget)
+        self.SysParatable.setGeometry(QtCore.QRect(0, 0, 400, 327))
+        self.SysParatable.setObjectName("SysParatable")
+        self.SysParatable.setColumnCount(tabCols)
+        self.SysParatable.setRowCount(tabRows)
+
+        for i in range(0,tabRows):
+            item = QtWidgets.QTableWidgetItem()
+            self.SysParatable.setVerticalHeaderItem(i, item)
+
+        # self.SysParatable.setCellWidget(60-1, 0, self.cmbETYPE)
+        ###################################################
+        item = QtWidgets.QTableWidgetItem()
+        self.SysParatable.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.SysParatable.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.SysParatable.setHorizontalHeaderItem(2, item)
+
+        self.SysParatable.horizontalHeader().setDefaultSectionSize(70)
+        self.SysParatable.horizontalHeader().setMinimumSectionSize(20)
+        self.setVerTitle(0,'CMOS_POS')
+        self.setVerTitle(1,'ENC_POS')
+        self.setVerTitle(2,'SELECT')
+        self.setVerTitle(3,'CHECK')
+        self.setVerTitle(4,'设备ID')
+        self.setVerTitle(5,'.二值化阈值')
+        self.setVerTitle(6,'Wafer PST')
+        self.setVerTitle(7,'Output enable')
+        self.setVerTitle(8,'CMOS温度')
+        self.setVerTitle(9,'Reserve')
+
+        self.setRowTitle(0,'ActValue')
+        self.setRowTitle(1,'Descript')
 
         ###################################################------------------------------------window retranslate ui
         self.retranslateUi(MainWindow)
@@ -121,4 +175,26 @@ class Ui_MainWindow(object):
         self.actionMergeFileView.setText(_translate("MainWindow", "MergeFileView"))
 
 
+    def setVerTitle(self, index, verStr):
+        _translate = QtCore.QCoreApplication.translate
+        item = self.SysParatable.verticalHeaderItem(index)
+        item.setText(_translate("MainWindow", verStr))
 
+    
+    def setRowTitle(self, index, verStr):
+        _translate = QtCore.QCoreApplication.translate
+        item = self.SysParatable.horizontalHeaderItem(index)
+        item.setText(_translate("MainWindow", verStr))
+
+    def resetSize(self, col, row):
+        self.SysParatable.setColumnCount(col)
+        self.SysParatable.setRowCount(row)
+        for i in range(0,row):
+            item = QtWidgets.QTableWidgetItem()
+            self.SysParatable.setVerticalHeaderItem(i, item)
+        for i in range(0,col):
+            item = QtWidgets.QTableWidgetItem()
+            self.SysParatable.setHorizontalHeaderItem(i, item)
+
+    def setCellValue(self,col,row,value):
+        self.SysParatable.setItem(col, row, QtWidgets.QTableWidgetItem(str(value)))

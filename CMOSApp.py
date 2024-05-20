@@ -37,6 +37,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.anlytime = 10
         #####################
         self.progress = 100
+        self.index_cmos = 0
+        self.cmosposArry = []
+        self.recording = 0
         #######################################################
         self.FileList.doubleClicked.connect(self.check_Item)
         #######################################################
@@ -46,9 +49,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #######################################################
         self.actionMergeFileTo.triggered.connect(self.setmergecmd)
         #######################################################
+        self.changeCmos.triggered.connect(self.changeCMOSE)
+        self.recordDat.triggered.connect(self.fun_recordate)
+        self.showDat.triggered.connect(self.fun_showDat)
+        self.recordDat.setEnabled(True)
+        self.showDat.setEnabled(False)
+        #######################################################
         self.timer_main = QTimer(self)
         self.timer_main.timeout.connect(self.maincyctask)
-        self.timer_main.start(50)  # ---1s deal 150 filse
+        self.timer_main.start(20)  # ---1s deal 150 filse
         #######################################################
         #self.tempFilePath = 'F:/00_PRO/04_FCD/04_SMIF/300LP/MPBRD/mapping_data'
         self.tempFilePath = 'F:/00_PRO/04_FCD/04_SMIF/300LP/Aligner/aligner_tool_v1.0.2/align_data'
@@ -73,24 +82,42 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def readmergfile(self):
         plt.close("all")
-                                                                                                                          
+
+    def changeCMOSE(self):
+        self.index_cmos = 1 - self.index_cmos
+        if self.ser != None:
+            response = self.ser.write_register(address=2, value= self.index_cmos + 1,slave=1)
+
     def maincyctask(self):
         if self.ser != None:
             response = self.ser.read_holding_registers(address=0, count=10, slave=1)
             if response.isError():
                 print("读取失败：", response)
             else:
-                print("保持寄存器的值：", response.registers)    
+                for item in range(0,10):
+                    self.setCellValue(item, 0, response.registers[item])
+                self.setCellValue(0, 1, round(( 4096 - response.registers[0] ) / 4096 * 28.0, 4))
+                if self.recording == 1:
+                    self.cmosposArry.append(response.registers[0])
+                # plt.close("all")
+                # self.plotdats(self.cmosposArry,len(self.cmosposArry),0)    
+            
+    def fun_recordate(self):
+        self.recordDat.setEnabled(False)
+        self.showDat.setEnabled(True)
+        self.recording = 1
+        self.cmosposArry = []
 
-
-        plt.close("all")
-    
     def showMsg(self):
         plt.close("all")
 
     # show curve of the select col
-    def showDat(self,index):
+    def fun_showDat(self):
+        self.recordDat.setEnabled(True)
+        self.showDat.setEnabled(False)
         plt.close("all")
+        self.recording = 0
+        self.plotdats(self.cmosposArry,len(self.cmosposArry),0)
     
 
     def plot3dats(self,val1,val2,val3,num,pos):
@@ -127,9 +154,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # ---< ,set plot space
         fig, ax = plt.subplots()
         agx = QDesktopWidget().availableGeometry()
-        xx = agx.width() / 2 - (self.width() + 800) / 2
-        yy = agx.height() / 2 - self.height() / 2 - 31
-        plt.get_current_fig_manager().window.setGeometry(xx + self.width() + 5, yy + 31 + pos * 300, 800, 300)
+        xx = int(agx.width() / 2 - (self.width() + 800) / 2)
+        yy = int(agx.height() / 2 - self.height() / 2 - 31)
+        plt.get_current_fig_manager().window.setGeometry(xx + self.width() + 5, yy + 31 + int(pos * 300), 800, 600)
         # ---< ,plot data
         plt.scatter([i for i in range(num)], val, alpha=0.5, color='blue', linewidth=0, zorder=1)
         plt.grid()
