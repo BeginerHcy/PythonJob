@@ -197,7 +197,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             for i in range(self.startfle, self.endfle):
                 # -------------
                 self.progress = (i + 1) * 100 / self.filenum
-                self.progressBar.setValue(self.progress)
+                self.progressBar.setValue(int(self.progress))
                 self.statusbar.showMessage(self.FilListStr[i])
                 # -------------
                 strpathfile = self.filepath + '/' + self.FilListStr[i]
@@ -348,9 +348,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # ---< ,set plot space
         fig, ax = plt.subplots()
         agx = QDesktopWidget().availableGeometry()
-        xx = agx.width() / 2 - (self.width() + 800) / 2
-        yy = agx.height() / 2 - self.height() / 2 - 31
-        plt.get_current_fig_manager().window.setGeometry(xx + self.width() + 5, yy + 31 + pos * 300, 800, 300)
+        xx = int(agx.width() / 2 - (self.width() + 800) / 2)
+        yy = int(agx.height() / 2 - self.height() / 2 - 31)
+        plt.get_current_fig_manager().window.setGeometry(xx + self.width() + 5, yy + 31 + int(pos * 300), 800, 300)
         # ---< ,plot data
         plt.scatter([i for i in range(num)], val, alpha=0.5, color='blue', linewidth=0, zorder=1)
         plt.grid()
@@ -361,9 +361,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # ---< ,set plot space
         fig, ax = plt.subplots()
         agx = QDesktopWidget().availableGeometry()
-        xx = agx.width() / 2 - (self.width() + 800) / 2
-        yy = agx.height() / 2 - self.height() / 2 - 31
-        plt.get_current_fig_manager().window.setGeometry(xx + self.width() + 5, yy + 31 + pos * 300, 800, 800)
+        xx = int(agx.width() / 2 - (self.width() + 800) / 2)
+        yy = int(agx.height() / 2 - self.height() / 2 - 31)
+        plt.get_current_fig_manager().window.setGeometry(xx + self.width() + 5, yy + 31 + int(pos * 300), 800, 800)
         # ---< ,plot data
         plt.scatter(xval, val, alpha=0.5, color='black', linewidth=0, zorder=1)
         plt.grid()
@@ -374,9 +374,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # ---< ,set plot space
         fig, ax = plt.subplots()
         agx = QDesktopWidget().availableGeometry()
-        xx = agx.width() / 2 - (self.width() + 800) / 2
-        yy = agx.height() / 2 - self.height() / 2 - 31
-        plt.get_current_fig_manager().window.setGeometry(xx + self.width() + 5, yy + 31 + pos * 300, 800, 800)
+        xx = int(agx.width() / 2 - (self.width() + 800) / 2)
+        yy = int(agx.height() / 2 - self.height() / 2 - 31)
+        plt.get_current_fig_manager().window.setGeometry(xx + self.width() + 5, yy + 31 + int(pos * 300), 800, 800)
         # ---< ,plot data
         plt.scatter(xval1, val1, alpha=0.5, color='black', linewidth=0, zorder=1)
         plt.scatter(xval2, val2, alpha=0.5, color='blue', linewidth=0, zorder=1)
