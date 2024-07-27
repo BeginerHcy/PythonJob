@@ -9,23 +9,17 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5 import QtCore, QtGui, QtWidgets,Qt
-from PyQt5.QtWidgets import QAction,QToolBar,QTableWidgetItem
-from PyQt5.QtGui import QFont,QIcon,QBrush,QColor
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        #MainWindow.resize(400, 600)
-        MainWindow.setFixedSize(400,600)
-        ###################################################------------------------------------
+        MainWindow.resize(1264, 514)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        ###################################################------------------------------------
         self.FileList = QtWidgets.QListView(self.centralwidget)
-        self.FileList.setGeometry(QtCore.QRect(0, 500, 400, 50))
+        self.FileList.setGeometry(QtCore.QRect(-5, 30, 371, 201))
         font = QtGui.QFont()
         font.setFamily("Arial Unicode")
         font.setPointSize(9)
@@ -35,102 +29,93 @@ class Ui_MainWindow(object):
         self.FileList.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.FileList.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)
         self.FileList.setObjectName("FileList")
-
-        ###################################################------------------------------------
+        self.horizontalSlider = QtWidgets.QSlider(self.centralwidget)
+        self.horizontalSlider.setGeometry(QtCore.QRect(10, 230, 341, 22))
+        self.horizontalSlider.setMinimum(0)
+        self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider.setObjectName("horizontalSlider")
+        self.progressBar = QtWidgets.QProgressBar(self.centralwidget)
+        self.progressBar.setGeometry(QtCore.QRect(0, 443, 361, 20))
+        self.progressBar.setProperty("value", 24)
+        self.progressBar.setObjectName("progressBar")
+        self.labelFrq = QtWidgets.QLabel(self.centralwidget)
+        self.labelFrq.setGeometry(QtCore.QRect(10, 250, 301, 21))
+        font = QtGui.QFont()
+        font.setFamily("Arial Unicode")
+        self.labelFrq.setFont(font)
+        self.labelFrq.setObjectName("labelFrq")
+        self.labelMsg = QtWidgets.QLabel(self.centralwidget)
+        self.labelMsg.setGeometry(QtCore.QRect(10, 270, 351, 161))
+        font = QtGui.QFont()
+        font.setFamily("Arial Unicode")
+        font.setPointSize(9)
+        self.labelMsg.setFont(font)
+        self.labelMsg.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.labelMsg.setObjectName("labelMsg")
+        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(60, 1, 81, 29))
+        self.lineEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit.setObjectName("lineEdit")
+        self.radioFile = QtWidgets.QRadioButton(self.centralwidget)
+        self.radioFile.setGeometry(QtCore.QRect(180, 8, 89, 16))
+        self.radioFile.setObjectName("radioFile")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(0, -1, 51, 31))
+        self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(150, 0, 41, 31))
+        self.label_2.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.label_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.label_2.setObjectName("label_2")
+        self.lineFactor = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineFactor.setGeometry(QtCore.QRect(280, 1, 71, 29))
+        self.lineFactor.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineFactor.setObjectName("lineFactor")
+        self.labeF = QtWidgets.QLabel(self.centralwidget)
+        self.labeF.setGeometry(QtCore.QRect(260, 0, 16, 31))
+        self.labeF.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.labeF.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.labeF.setObjectName("labeF")
         self.FileList.raise_()
-
+        self.progressBar.raise_()
+        self.labelFrq.raise_()
+        self.horizontalSlider.raise_()
+        self.labelMsg.raise_()
+        self.lineEdit.raise_()
+        self.radioFile.raise_()
+        self.label.raise_()
+        self.label_2.raise_()
+        self.lineFactor.raise_()
+        self.labeF.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
-        ###################################################------------------------------------ statusBar
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        ###################################################------------------------------------ menuarBar
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 364, 23))
         self.menubar.setObjectName("menubar")
         self.menuAbout = QtWidgets.QMenu(self.menubar)
         self.menuAbout.setObjectName("menuAbout")
         MainWindow.setMenuBar(self.menubar)
-
         self.actionFold = QtWidgets.QAction(MainWindow)
         self.actionFold.setObjectName("actionFold")
-
         self.actionMergeFileTo = QtWidgets.QAction(MainWindow)
         self.actionMergeFileTo.setObjectName("actionMergeFileTo")
-
         self.actionMergeFileView = QtWidgets.QAction(MainWindow)
         self.actionMergeFileView.setObjectName("actionMergeFileView")
-
         self.menuAbout.addAction(self.actionFold)
         self.menuAbout.addSeparator()
-
         self.menuAbout.addAction(self.actionMergeFileTo)
         self.menuAbout.addSeparator()
-
         self.menuAbout.addAction(self.actionMergeFileView)
         self.menubar.addAction(self.menuAbout.menuAction())
-        ###################################################------------------------------------toolBar
-        self.cmbComlist = QtWidgets.QComboBox()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.cmbComlist.sizePolicy().hasHeightForWidth())
-        self.cmbComlist.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setFamily("Arial Unicode MS")
-        self.cmbComlist.setFont(font)
-        self.cmbComlist.setObjectName("cmbComlist")
-        self.cmbComlist.addItem("no..")
 
-        self.cmbBrdrate = QtWidgets.QComboBox()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.cmbBrdrate.sizePolicy().hasHeightForWidth())
-        self.cmbBrdrate.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setFamily("Arial Unicode MS")
-        self.cmbBrdrate.setFont(font)
-        self.cmbBrdrate.setObjectName("cmbBrdrate")
-        self.cmbBrdrate.addItem("9600")
-        self.cmbBrdrate.addItem("19200")
-        self.cmbBrdrate.addItem("38400")
-        self.cmbBrdrate.addItem("115200")
-
-        self.connect    = QAction(QIcon("./Bitmap/connect_established.png"),'链接',self)
-        self.disconnect = QAction(QIcon("./Bitmap/connect_no.png"),'断开链接',  self)
-        self.search     = QAction(QIcon("./Bitmap/refresh.gif"), '刷新串口', self)
-
-        self.changeCmos = QAction(QIcon("./Bitmap/symimportant.gif"), '切换', self)
-
-        self.recordDat = QAction(QIcon("./Bitmap/symparam.gif"), '记录数据', self)
-        self.showDat = QAction(QIcon("./Bitmap/symeffect.gif"), '停止并显示', self)
-        self.record = QAction(QIcon("./Bitmap/symeffect.gif"), '记录数据', self)
-        
-
-        self.toolBar = self.addToolBar('串口链接')
-        self.toolBar.addAction(self.search)
-        self.toolBar.addSeparator()
-        self.toolBar.addWidget(self.cmbComlist)
-        self.toolBar.addSeparator()
-        self.toolBar.addWidget(self.cmbBrdrate)
-        self.toolBar.addSeparator()
-        self.toolBar.addAction(self.connect)
-        self.toolBar.addSeparator()
-        self.toolBar.addAction(self.disconnect)
-
-        self.toolBar2 = QToolBar()
-        self.addToolBar(QtCore.Qt.BottomToolBarArea,self.toolBar2)
-        self.toolBar2.addAction(self.changeCmos)
-        self.toolBar2.addSeparator()
-        self.toolBar2.addAction(self.recordDat)
-        self.toolBar2.addAction(self.showDat)
-        self.toolBar2.addAction(self.record)
-        ###################################################------------------------------------ Modbus Table
-        tabRows = 20 #systempara numbers need to display
-        tabCols = 3
+        tabRows = 50 #systempara numbers need to display
+        tabCols = 2
         self.SysParatable = QtWidgets.QTableWidget(self.centralwidget)
-        self.SysParatable.setGeometry(QtCore.QRect(0, 0, 400, 327))
+        self.SysParatable.setGeometry(QtCore.QRect(400, 0, 850, 460))
         self.SysParatable.setObjectName("SysParatable")
         self.SysParatable.setColumnCount(tabCols)
         self.SysParatable.setRowCount(tabRows)
@@ -150,33 +135,27 @@ class Ui_MainWindow(object):
 
         self.SysParatable.horizontalHeader().setDefaultSectionSize(70)
         self.SysParatable.horizontalHeader().setMinimumSectionSize(20)
-        self.setVerTitle(0,'CMOS_POS')
-        self.setVerTitle(1,'ENC_POS')
-        self.setVerTitle(2,'SELECT')
-        self.setVerTitle(3,'CHECK')
-        self.setVerTitle(4,'设备ID')
-        self.setVerTitle(5,'.二值化阈值')
-        self.setVerTitle(6,'Wafer PST')
-        self.setVerTitle(7,'Output enable')
-        self.setVerTitle(8,'CMOS温度')
-        self.setVerTitle(9,'Integration time')
 
-        self.setRowTitle(0,'ActValue')
-        self.setRowTitle(1,'Descript')
-
-        ###################################################------------------------------------window retranslate ui
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "AlignDatAnalyse"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "MapDatAnalyse"))
+        self.labelFrq.setText(_translate("MainWindow", "TextLabel"))
+        self.labelMsg.setText(_translate("MainWindow", "TextLabel"))
+        self.radioFile.setText(_translate("MainWindow", "Fileter"))
+        self.label.setText(_translate("MainWindow", "Analyse\n"
+"Seconds"))
+        self.label_2.setText(_translate("MainWindow", "S"))
+        self.labeF.setText(_translate("MainWindow", "k:"))
         self.menuAbout.setTitle(_translate("MainWindow", "文件"))
         self.actionFold.setText(_translate("MainWindow", "Select Folder"))
         self.actionMergeFileTo.setText(_translate("MainWindow", "MergeFileTo"))
         self.actionMergeFileView.setText(_translate("MainWindow", "MergeFileView"))
 
-
+        
+    
     def setVerTitle(self, index, verStr):
         _translate = QtCore.QCoreApplication.translate
         item = self.SysParatable.verticalHeaderItem(index)
@@ -201,5 +180,3 @@ class Ui_MainWindow(object):
     def setCellValue(self,col,row,value):
         self.SysParatable.setItem(col, row, QtWidgets.QTableWidgetItem(str(value)))
 
-    def getCellValue(self,col,row):
-        return (float)(self.SysParatable.item(col, row).text())

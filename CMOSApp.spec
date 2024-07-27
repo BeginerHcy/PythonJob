@@ -2,8 +2,8 @@
 
 
 a = Analysis(
-    ['MappDatAnalyse.py'],
-    pathex=['package'],
+    ['CMOSApp.py'],
+    pathex=[],
     binaries=[],
     datas=[],
     hiddenimports=[],
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='MappDatAnalyse',
+    name='CMOSApp',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

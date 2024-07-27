@@ -581,7 +581,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                 if self.DwnCtrl.dwnIndex == self.DwnCtrl.index:
                                     self.DwnCtrl.dwnOK = 1
                                     #print('dwnOK')
-                                    self.BarWriteProcess.setValue(100 * self.DwnCtrl.dwnIndex/self.DwnCtrl.fwlen)
+                                    self.BarWriteProcess.setValue(int(100 * self.DwnCtrl.dwnIndex/self.DwnCtrl.fwlen))
                                     ###########################################
                                     self.decode = i + len - 1#refresh the decode index
                                     self.lenRevdata = self.fill - self.decode#update buf

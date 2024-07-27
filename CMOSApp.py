@@ -40,6 +40,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.index_cmos = 0
         self.cmosposArry = []
         self.recording = 0
+        self.comerr = 0
+        self.timeStamp = 0
+        self.comeok = 0
+        self.recordindex = 0
+        self.cmospos = 0
         #######################################################
         self.FileList.doubleClicked.connect(self.check_Item)
         #######################################################
@@ -52,12 +57,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.changeCmos.triggered.connect(self.changeCMOSE)
         self.recordDat.triggered.connect(self.fun_recordate)
         self.showDat.triggered.connect(self.fun_showDat)
+        self.record.triggered.connect(self.fun_recored)
+
         self.recordDat.setEnabled(True)
         self.showDat.setEnabled(False)
         #######################################################
         self.timer_main = QTimer(self)
         self.timer_main.timeout.connect(self.maincyctask)
-        self.timer_main.start(20)  # ---1s deal 150 filse
+        self.timer_main.start(10)  # ---1s deal 150 filse
         #######################################################
         #self.tempFilePath = 'F:/00_PRO/04_FCD/04_SMIF/300LP/MPBRD/mapping_data'
         self.tempFilePath = 'F:/00_PRO/04_FCD/04_SMIF/300LP/Aligner/aligner_tool_v1.0.2/align_data'
@@ -86,19 +93,32 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def changeCMOSE(self):
         self.index_cmos = 1 - self.index_cmos
         if self.ser != None:
+            try:
+                self.integrateTime = (int)(self.getCellValue(4,1))
+            except:
+                self.integrateTime = 300
             response = self.ser.write_register(address=2, value= self.index_cmos + 1,slave=1)
+            response = self.ser.write_register(address=3, value= self.integrateTime, slave=1)
 
     def maincyctask(self):
+        self.timeStamp = self.timeStamp + 0.02
+        self.setCellValue(2, 1, round(self.timeStamp , 4))
         if self.ser != None:
             response = self.ser.read_holding_registers(address=0, count=10, slave=1)
             if response.isError():
                 print("读取失败：", response)
+                self.comerr = self.comerr + 1
+                self.setCellValue(1, 1, self.comerr)
+
             else:
                 for item in range(0,10):
                     self.setCellValue(item, 0, response.registers[item])
-                self.setCellValue(0, 1, round(( 4096 - response.registers[0] ) / 4096 * 28.0, 4))
+                self.setCellValue(0, 1, round(( 4096 - response.registers[0] ) / 4096 * 28.67, 4))
+                self.cmospos = round(( 4096 - response.registers[0] ) / 4096 * 28.67, 4)
                 if self.recording == 1:
                     self.cmosposArry.append(response.registers[0])
+                self.comeok = self.comeok + 1
+                self.setCellValue(3, 1, self.comeok)
                 # plt.close("all")
                 # self.plotdats(self.cmosposArry,len(self.cmosposArry),0)    
             
@@ -107,18 +127,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.showDat.setEnabled(True)
         self.recording = 1
         self.cmosposArry = []
+        self.comerr = 0
 
     def showMsg(self):
         plt.close("all")
 
     # show curve of the select col
     def fun_showDat(self):
+        self.recordindex = 0
         self.recordDat.setEnabled(True)
         self.showDat.setEnabled(False)
         plt.close("all")
         self.recording = 0
         self.plotdats(self.cmosposArry,len(self.cmosposArry),0)
-    
+
+        # show curve of the select col
+    def fun_recored(self):
+        plt.close("all")
+        self.setCellValue(self.recordindex, 2, self.cmospos)
+        self.recordindex  = self.recordindex + 1
+        print(self.recordindex)
+
 
     def plot3dats(self,val1,val2,val3,num,pos):
         # plot method
